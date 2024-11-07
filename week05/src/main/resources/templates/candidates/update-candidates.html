@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Candidate</title>
+    <style>
+        /* Basic styling for the form */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 15px;
+        }
+
+        .success {
+            color: green;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Update Candidate Information</h1>
+
+<!-- Check for errors or success messages -->
+<div th:if="${error != null}" class="error" th:text="${error}"></div>
+<div th:if="${success != null}" class="success" th:text="${success}"></div>
+
+<form th:action="@{/candidates/update}" th:object="${candidate}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+    <!-- Candidate Full Name -->
+    <label for="fullName">Full Name:</label>
+    <input type="text" id="fullName" th:field="*{fullName}" required>
+    <div th:if="${#fields.hasErrors('fullName')}" class="error" th:errors="*{fullName}"></div>
+
+    <!-- Candidate Email -->
+    <label for="email">Email:</label>
+    <input type="email" id="email" th:field="*{email}" required>
+    <div th:if="${#fields.hasErrors('email')}" class="error" th:errors="*{email}"></div>
+
+    <!-- Candidate Phone -->
+    <label for="phone">Phone:</label>
+    <input type="text" id="phone" th:field="*{phone}" required>
+    <div th:if="${#fields.hasErrors('phone')}" class="error" th:errors="*{phone}"></div>
+
+    <!-- Candidate Date of Birth -->
+    <label for="dob">Date of Birth:</label>
+    <input type="date" id="dob" th:value="*{dob}" name="dob" required>
+    <div th:if="${#fields.hasErrors('dob')}" class="error" th:errors="*{dob}"></div>
+
+    <!-- Address Information -->
+    <h3>Address Information</h3>
+
+    <!-- Street -->
+    <label for="street">Street:</label>
+    <input type="text" id="street" th:field="*{address.street}" required>
+    <div th:if="${#fields.hasErrors('address.street')}" class="error" th:errors="*{address.street}"></div>
+
+    <!-- Number -->
+    <label for="number">Number:</label>
+    <input type="text" id="number" th:field="*{address.number}" required>
+    <div th:if="${#fields.hasErrors('address.number')}" class="error" th:errors="*{address.number}"></div>
+
+    <!-- City -->
+    <label for="city">City:</label>
+    <input type="text" id="city" th:field="*{address.city}" required>
+    <div th:if="${#fields.hasErrors('address.city')}" class="error" th:errors="*{address.city}"></div>
+
+    <!-- Country -->
+    <label for="country">Country:</label>
+    <select id="country" th:field="*{address.country}" required>
+        <option th:each="country : ${countries}" th:value="${country}" th:text="${country}"></option>
+    </select>
+    <div th:if="${#fields.hasErrors('address.country')}" class="error" th:errors="*{address.country}"></div>
+
+    <!-- Zipcode -->
+    <label for="zipcode">Zipcode:</label>
+    <input type="text" id="zipcode" th:field="*{address.zipcode}" required>
+    <div th:if="${#fields.hasErrors('address.zipcode')}" class="error" th:errors="*{address.zipcode}"></div>
+
+    <!-- Submit Button -->
+    <button type="submit">Update Candidate</button>
+</form>
+
+</body>
+</html>
